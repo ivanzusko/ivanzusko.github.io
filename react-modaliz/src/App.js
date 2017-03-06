@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import './github-page.css';
 import './App.css';
 
 import Modaliz from 'react-modaliz';
