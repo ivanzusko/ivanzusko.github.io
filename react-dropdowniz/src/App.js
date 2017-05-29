@@ -29,13 +29,9 @@ const DownLoadSVG = ({
 );
 
 class App extends Component {
-    constructor() {
-        super();
-
-        this.state = {
-            showDropdown: false,
-            totalDownloads: 0,
-        }
+    state = {
+        showDropdown: false,
+        totalDownloads: 0,
     }
 
     componentDidMount() {
@@ -43,17 +39,39 @@ class App extends Component {
         const currentDate = moment().format('YYYY-MM-DD');
         const URL = `https://npm-stat.com/downloads/range/${startDate}:${currentDate}/react-dropdowniz`;
 
-        fetch(URL).then(response => {
-            return response.json();
-        }).then(json => {
-            let totalDownloads = 0;
+        // fetch(URL)
+        //     .then(response => {
+        //         return response.json();
+        //     })
+        //     .then(json => {
+        //         let totalDownloads = 0;
+        //
+        //         json.downloads.map(item => {
+        //             return totalDownloads += item.downloads;
+        //         });
+        //
+        //         this.setState({totalDownloads});
+        //     })
+        //     .catch(err => console.log(err));
 
-            json.downloads.map(item => {
-                return totalDownloads += item.downloads;
-            });
+        async function fetchAsync() {
+            const response = await fetch(URL);
+            const data = await response.json();
 
-            this.setState({totalDownloads});
-        });
+            return data;
+        }
+
+        fetchAsync()
+            .then(json => {
+                let totalDownloads = 0;
+
+                json.downloads.map(item => {
+                    return totalDownloads += item.downloads;
+                });
+
+                this.setState(() => ({totalDownloads}));
+            })
+            .catch(err => console.log(err));
     }
 
     handleShowDropdown = () => {
