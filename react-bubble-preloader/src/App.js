@@ -120,7 +120,7 @@ class App extends Component {
                 </div>
 
                 <footer className="footer">
-                    <div className="main-content copy"><code>Copyright &copy;</code> <a href="https://twitter.com/IvanZusko" target="_blank">Ivan Zusko</a> <code>2017. MIT Licensed.</code></div>
+                    <div className="main-content copy"><code>Copyright &copy;</code> <a href="https://twitter.com/IvanZusko" target="_blank">Ivan Zusko</a> <code>{new Date().getFullYear()}. MIT Licensed.</code></div>
                 </footer>
             </div>
         );
