@@ -1,9 +1,13 @@
 import React from 'react';
 
-const MainContentSection = (props) => {
+const MainContentSection = ({
+    children
+} : {
+    children: React.ReactNode
+}) => {
     return (
         <section className="main-content">
-            {props.children}
+            {children}
         </section>
     );
 };
