@@ -1,56 +1,32 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
+import BubblePreloader from 'react-bubble-preloader';
+import Header from './components/Header';
+import MainContentSection from './components/layout/MainContentSection';
 import './github-page.css';
 import './App.css';
 
-import BubblePreloader from 'react-bubble-preloader';
-// import moment from 'moment';
-
-import Header from './components/Header';
-import MainContentSection from './components/layout/MainContentSection';
-
-const DownLoadSVG = ({
-    label,
-    totalDownloads,
-} : {
-    label: string;
-    totalDownloads: number;
-}) => (
-    <div>
-        <svg width="136" height="20"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stopColor="#bbb" stopOpacity=".1"/><stop offset="1" stopOpacity=".1"/></linearGradient><clipPath id="a"><rect width="136" height="20" rx="3" fill="#fff"/></clipPath><g clipPath="url(#a)"><path fill="#555" d="M0 0h69v20H0z"/><path fill="#4c1" d="M69 0h67v20H69z"/><path fill="url(#b)" d="M0 0h136v20H0z"/></g><g fill="#fff" textAnchor="middle" fontFamily="DejaVu Sans,Verdana,Geneva,sans-serif" fontSize="10"><text x="34.5" y="15" fill="#010101" fillOpacity=".3">{label}</text><text x="34.5" y="14">{label}</text><text x="101.5" y="15" fill="#010101" fillOpacity=".3">{totalDownloads}</text><text x="101.5" y="14">{totalDownloads}</text></g></svg>
-    </div>
-);
-
-const App = () => {
+export default function App() {
     const [totalDownloads, setTotalDownloads] = useState(0);
 
-    // useEffect(() => {
-    //     const startDate = '2016-12-18';
-    //     const currentDate = moment().format('YYYY-MM-DD');
-    //     const URL = `https://npm-stat.com/downloads/range/${startDate}:${currentDate}/react-bubble-preloader`;
+    useEffect(() => {
+        const startDate = '2016-12-18';
+        const currentDate = new Date().toISOString().split('T')[0];
+        const URL = `https://api.npmjs.org/downloads/point/${startDate}:${currentDate}/react-bubble-preloader`
 
-    //     fetch(URL)
-    //         .then(response => {
-    //             return response.json();
-    //         })
-    //         .then(json => {
-    //             let totalDownloads = 0;
+        fetch(URL)
+            .then(response => {
+                return response.json();
+            })
+            .then(json => {
+                const totalDownloads = json.downloads;
 
-    //             json.downloads.map(item => {
-    //                 return totalDownloads += item.downloads;
-    //             });
-
-    //             setTotalDownloads(totalDownloads);
-    //         });
-    // }, []);
-
-    const downloadsInfo = <DownLoadSVG
-        label="downloads"
-        totalDownloads={totalDownloads}
-    />
+                setTotalDownloads(totalDownloads);
+            });
+    }, []);
 
     return (
         <div>
-            <Header downloadsInfo={downloadsInfo}/>
+            <Header totalDownloads={totalDownloads} />
 
             <MainContentSection>
                 <h2 id="welcome-to-github-pages">Here you can see React Bubble Preloader:</h2>
@@ -156,5 +132,3 @@ const App = () => {
         </div>
     );
 }
-
-export default App;
